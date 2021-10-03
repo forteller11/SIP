@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SIP  - Super Information Tracker", "SIP  - Super Information Tracker\SIP  - Super Information Tracker.csproj", "{DA1C3E89-89D9-49B3-AEAA-BD9CBC2AF2D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA1C3E89-89D9-49B3-AEAA-BD9CBC2AF2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA1C3E89-89D9-49B3-AEAA-BD9CBC2AF2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA1C3E89-89D9-49B3-AEAA-BD9CBC2AF2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA1C3E89-89D9-49B3-AEAA-BD9CBC2AF2D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
