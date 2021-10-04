@@ -4,6 +4,12 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>SIP____Super_Information_Tracker</RootNamespace>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Serialization" />
+      <Folder Include="VCS" />
+    </ItemGroup>
 
 </Project>
