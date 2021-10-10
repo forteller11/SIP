@@ -35,7 +35,9 @@ namespace SIP.DataStructures
             }
 
             var fullPath = IO.Path.Combine(sipDirPath, path);
-            File.WriteAllText(fullPath.ToString(), stringBuilder.ToString());
+            fullPath = IO.Path.AddExtension(fullPath, "txt");
+            string fullPathStr = new string(fullPath);
+            File.WriteAllText(fullPathStr, stringBuilder.ToString());
         }
 
     }

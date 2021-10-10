@@ -10,10 +10,14 @@ namespace SIP.Input
         
         public static event TrackDirectory? OnTrackDirectory;
         public delegate void TrackDirectory(string filePath);
+        public static event Action<string>? OnAddFile;
+        public static event Action<string>? OnRepoInit;
 
         public const string KEYWORD = "sip";
         public const string CREATE = "create";
         public const string TRACK = "track";
+        public const string ADD = "add";
+        public const string INIT = "init";
         public static void Parse(string input)
         {
             var words = input.Split(" ", StringSplitOptions.TrimEntries);
@@ -51,6 +55,28 @@ namespace SIP.Input
                     OnTrackDirectory?.Invoke(data);
                     break;
                 
+                case ADD:
+                    if (data == null)
+                    {
+                        Console.WriteLine($"Need third argument relative path for {nameof(ADD)}");
+                        break;
+                    }
+                    
+                    OnAddFile?.Invoke(data);
+                    Console.WriteLine("Adding");
+                    break;
+                
+                case INIT:
+                    if (data == null)
+                    {
+                        Console.WriteLine($"Need third argument");
+                        break;
+                    }
+                    
+                    OnRepoInit?.Invoke(data);
+                    Console.WriteLine("Init");
+                    break;
+                    
                 default:
                     throw new ArgumentOutOfRangeException();
             }
