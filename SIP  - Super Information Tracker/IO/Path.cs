@@ -1,4 +1,6 @@
 using System;
+using System.Diagnostics;
+using System.IO.Compression;
 
 namespace SIP.IO
 {
@@ -11,8 +13,12 @@ namespace SIP.IO
         static Path()
         {
             //for windows only
-            PathSeperator = '/';
+            PathSeperator = '\\';
+
+            Test();
         }
+        
+        public static void Main(){}
 
         public static char[] Combine(ReadOnlySpan<char> lPath, ReadOnlySpan<char> rPath)
         {
@@ -23,7 +29,7 @@ namespace SIP.IO
                 span[i] = lPath[i];
             }
 
-            span[lPath.Length + 1] = PathSeperator;
+            span[lPath.Length] = PathSeperator;
 
             for (int i = 0; i < rPath.Length; i++)
             {
@@ -40,21 +46,52 @@ namespace SIP.IO
             return l == r;
         }
 
+        public static bool CharArrayCompare(ReadOnlySpan<char> lPath, ReadOnlySpan<char> rPath)
+        {
+            if (lPath.Length != rPath.Length)
+                return false;
+            
+            for (int i = 0; i < lPath.Length; i++)
+            {
+                if (!CharCompare(lPath[i], rPath[i]))
+                    return false;
+            }
+
+            return true;
+        }
+
         public static ReadOnlySpan<char> GetRelativePath(ReadOnlySpan<char> parentPath, ReadOnlySpan<char> childPath)
         {
-            if (childPath.Length > parentPath.Length)
+            if (parentPath.Length > childPath.Length)
                 return null;
 
             if (childPath.Length == parentPath.Length)
                 return Array.Empty<char>();
 
             //make sure that child is a superset of parent path
-            if (IsWithinPath(parentPath, childPath))
+            if (!IsWithinPath(parentPath, childPath))
                 return null;
 
             //todo bug, will this include path seperator at start of relative path? /relativePath/Example.txt, should be length + 1 instead?
-            return childPath.Slice(parentPath.Length);
+            var result =  childPath.Slice(parentPath.Length+1);
+            return result;
+        }
 
+        public static void Test()
+        {
+            var path1 = @"D:\MOVE\Homework\Hobby\Custom-Realtime-VCS\TestFolder".ToCharArray();
+            var path2 = @"D:\MOVE\Homework\Hobby".ToCharArray();
+            var path3 = @"Custom-Realtime-VCS\TestFolder".ToCharArray();
+            
+            Debug.Assert(IsWithinPath(path2, path1));
+
+            var test2Data = GetRelativePath(path2, path1);
+            bool test2Result = CharArrayCompare(test2Data, path3);
+            Debug.Assert(test2Result);
+
+            var test3data = Combine(path2, path3);
+            bool test3 = CharArrayCompare(test3data, path1);
+            Debug.Assert(test3);
         }
 
         public static bool IsWithinPath(ReadOnlySpan<char> parentPath, ReadOnlySpan<char> childPath)
