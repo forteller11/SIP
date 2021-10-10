@@ -10,23 +10,23 @@ namespace SIP.DataStructures
         public Guid Guid;
         public List<SipFileSnapshot> Snapshots = new List<SipFileSnapshot>();
         
-        public static SipFile CreateNew(Guid guid, string vcsMirrorRoot)
+        public static SipFile CreateNew(Guid guid, ReadOnlySpan<char> vcsMirrorRoot)
         {
             var sipFile = new SipFile();
             sipFile.Snapshots = new List<SipFileSnapshot>();
             sipFile.Guid = guid;
 
-            var firstSnapshot = new SipFileSnapshot(vcsMirrorRoot, 0);
+            var firstSnapshot = new SipFileSnapshot(vcsMirrorRoot.ToString(), 0);
             sipFile.Snapshots.Add(firstSnapshot);
             
             return sipFile;
         }
 
-        public void Serialize(string sipDirPath)
+        public void Serialize(ReadOnlySpan<char> sipDirPath)
         {
             var stringBuilder = new StringBuilder();
             
-            string path = Guid.ToString();
+            var path = Guid.ToString().ToCharArray();
             stringBuilder.Append(path);
             
             foreach (var snapshots in Snapshots)
@@ -34,8 +34,8 @@ namespace SIP.DataStructures
                 stringBuilder.Append(snapshots);
             }
 
-            string fullPath = Path.Combine(sipDirPath, path);
-            File.WriteAllText(fullPath, stringBuilder.ToString());
+            var fullPath = IO.Path.Combine(sipDirPath, path);
+            File.WriteAllText(fullPath.ToString(), stringBuilder.ToString());
         }
 
     }

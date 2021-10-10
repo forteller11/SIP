@@ -7,7 +7,7 @@ namespace SIP.IO
     /// <summary>
     ///  This only works on windows
     /// </summary>
-    public struct Path
+    public static class Path
     {
         public static readonly char PathSeperator;
         static Path()
@@ -18,8 +18,6 @@ namespace SIP.IO
             Test();
         }
         
-        public static void Main(){}
-
         public static char[] Combine(ReadOnlySpan<char> lPath, ReadOnlySpan<char> rPath)
         {
             char[] span = new char[lPath.Length + 1 + rPath.Length];
